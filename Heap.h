@@ -1,17 +1,62 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
 class Heap
 {
   public:
-    Heap();
+    Heap()
+    : buf (new int [50]), numEnt (0)
+    {}
+    Heap(int cap)
+    : buf (new int[cap]), numEnt (0)
+    {}
     Heap(int arr[]);
-    ~Heap();
+    ~Heap()
+    {
+        delete [] buf;
+    }
     int remove_min();
-    void insert(int n);
-    void print();
+    void insert(int n)
+    {
+	int pos;
+        buf[++numEnt] = n;
+	for(pos = numEnt; buf[pos] < buf[pos/2]; pos /= 2)
+	{
+	    // swap of vals in place
+	    buf[pos] = buf[pos] + buf[pos/2];
+	    buf[pos/2] = buf[pos] - buf[pos/2];
+	    buf[pos] = buf[pos] - buf[pos/2];
+	}
+    }
+    void print()
+    {
+        for(int i = 1; i <= numEnt; ++i)
+	{
+	    cout << "i: " << i << " val " << buf[i] << endl;
+	}
+    }
+    void display_structure()
+    {
+        int n = 1;
+        int p = 0;
+        int nextTwoPow = pow(2,p);
+	for(int i = 1; i <= numEnt; ++i)
+	{
+	    cout << buf[i] << "\t";
+	    if(n == nextTwoPow)
+	    {
+	        cout << endl;
+		n = 0;
+		++p;
+		nextTwoPow = pow(2,p);
+	    }
+	    ++n;
+	}	
+    }
   private:
     int * buf;
-    int size;
+    int numEnt;
     void make_heap();
-    void perc_down(int index);
-    void perc_up(int index);
     void double_size();
 };
