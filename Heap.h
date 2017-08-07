@@ -16,7 +16,32 @@ class Heap
     {
         delete [] buf;
     }
-    int remove_min();
+    int remove_min()
+    {
+        int returnVal = buf[1];
+	buf[1] = buf[numEnt];
+	int node = 1;
+	int min = 0;
+	while(true)
+	{
+	    if(buf[2*node] > buf[(2*node)+1])
+	        min = (2*node)+1;
+	    else
+		min = 2*node;
+	    if(buf[node] > buf[min] && min <= numEnt)
+	    {
+	//	cout << "swap 1" << endl;
+	        buf[node] = buf[node] + buf[min];
+                buf[min] = buf[node] - buf[min];
+		buf[node] = buf[node] - buf[min];
+		node = min;	
+	    }
+	    else
+	        break;
+	}
+	numEnt--;
+	return returnVal;
+    }
     void insert(int n)
     {
 	int pos;
@@ -52,7 +77,8 @@ class Heap
 		nextTwoPow = pow(2,p);
 	    }
 	    ++n;
-	}	
+	}
+	cout << endl;	
     }
   private:
     int * buf;

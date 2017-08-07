@@ -27,10 +27,25 @@ void test_display_structure()
     myHeap.display_structure();
 }
 
+void test_remove_min()
+{
+    int popVal = 0;
+    Heap myHeap;
+    for(int i = 0; i < 10; ++i)
+    {
+        myHeap.insert(i);
+    }
+    myHeap.display_structure();
+    popVal = myHeap.remove_min();
+    cout << "after remove of val " << popVal << endl;
+    myHeap.display_structure();
+}
+
 int main()
 {
 //    test_constr_destr();
 //    test_insert();
-    test_display_structure();
+//    test_display_structure();
+    test_remove_min();
     return 0;
 }
